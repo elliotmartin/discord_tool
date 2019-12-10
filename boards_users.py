@@ -7,13 +7,11 @@ def match_users(filename, tags):
         tags = f.readlines()
         tags = [t[0:t.find('#')].lower().strip() for t in tags]
 
-    print(tags) 
     matches = []
     
     #woooo triple loop. new highscore! I don't think this is too horrific? 
     for country in data.keys():
         for mode in data[country].keys():
-            print(str(data[country][mode]).lower().strip())
             for k in data[country][mode].keys():
                 if k.lower().strip() in tags:
                 #name mode country rank
