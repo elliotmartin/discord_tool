@@ -10,12 +10,14 @@ def match_users(filename, tags):
     print(tags) 
     matches = []
     
-    #this needs a lot of work done
+    #woooo triple loop. new highscore! I don't think this is too horrific? 
     for country in data.keys():
         for mode in data[country].keys():
-            if str(data[country][mode]).lower().strip() in tags:
+            print(str(data[country][mode]).lower().strip())
+            for k in data[country][mode].keys():
+                if k.lower().strip() in tags:
                 #name mode country rank
-                matches.append(data[country][mode] + ' ' +  mode + ' ' + country + ' ' + data[data[country][mode]])
+                    matches.append(k + ' ' +  mode + ' ' + country + ' ' + data[country][mode][k])
                 
     
     return matches
