@@ -21,3 +21,5 @@ def match_users(filename, tags):
     return matches
 
 print(match_users('./json/73.json', './json/tags.txt'))
+for i in ["69", "70", "71", "72"]:
+    print(i, match_users('./json/' + i + '.json', './json/tags.txt'))
