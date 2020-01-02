@@ -12,7 +12,7 @@ PAGES = [i for i in range(1,9)]
 SEASONS= ["73", "72", "71", "70", "69"]
 
 
-debug = False
+debug = True
 if debug:
         SEASONS = ['73', '72']
         REGIONS = ['US', 'EU']
@@ -27,7 +27,7 @@ def get_request(url):
 def get_boards(url):
         driver = webdriver.PhantomJS()
         driver.get(url)
-        time.sleep(.55)
+        time.sleep(.75)
         html = driver.find_element_by_tag_name('html').get_attribute('innerHTML')
 
         soup = BeautifulSoup(html, features = 'lxml') 
@@ -61,14 +61,13 @@ def build(seasonId):
 
 
 def write_to_json(season, reg):
-    with open("./json/" + season + '.json', 'w') as f:
+    with open("./json/" + season + '.txt') as f:
         json.dump(reg, f)
 
 
 def build_all():
     for s in SEASONS:
         write_to_json(s, build(s))
-        print("wrote " + s + " to file")
 
 
 build_all()
