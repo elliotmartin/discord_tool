@@ -3,22 +3,6 @@ import requests
 from urllib.request import Request, urlopen
 from selenium import webdriver
 import time
-import json
-
-
-REGIONS = ["US", "EU", "AP"]
-LEADERBOARDS = ["STD", "WLD", "BG"]
-PAGES = [i for i in range(1,9)]
-SEASONS= ["73", "72", "71", "70", "69"]
-
-
-debug = True
-if debug:
-        SEASONS = ['73', '72']
-        REGIONS = ['US', 'EU']
-        LEADERBOARDS = ['STD', 'WLD', 'BG']
-        PAGES = [1, 2]
-
 
 def get_request(url):
         return requests.get(url).text
@@ -30,45 +14,65 @@ def get_boards(url):
         time.sleep(.75)
         html = driver.find_element_by_tag_name('html').get_attribute('innerHTML')
 
+
         soup = BeautifulSoup(html, features = 'lxml') 
 
         ranks = soup.find_all('div', {'class':'Column col-rank'})
 
         tags = soup.find_all('div', {'class': 'Column col-battletag'})
+        #lb = dict(zip([rank.text for rank in ranks] , [tag.text for tag in tags]))
         lb = dict(zip([tag.text for tag in tags], [rank.text for rank in ranks]))
         return lb
 
+REGIONS = ["US", "EU", "AP"]
+LEADERBOARDS = ["STD", "WLD", "BG"]
+PAGES = [i for i in range(1,9)]
 
-def build(seasonId):
-    url = "https://playhearthstone.com/en-us/community/leaderboards/?region={}&leaderboardId={}&seasonId=" + seasonId + "&page={}"
-    reg = {"US": {"STD": {}, "WLD": {}, "BG": {}}, "EU": {"STD": {}, "WLD": {}, "BG": {}}, "AP": {"STD": {}, "WLD": {}, "BG": {}}}
-    old_reg = {"US": {"STD": {}, "WLD": {}}, "EU": {"STD": {}, "WLD": {}}, "AP": {"STD": {}, "WLD": {}}}
+debug = False
+if debug:
+        REGIONS = ['US', 'EU']
+        LEADERBOARDS = ["STD", "WLD"]
+        PAGES = [1, 2]
 
-    if int(seasonId) <= 72:
-        for r in REGIONS:
-            for l in ['STD', 'WLD']:
-                for p in PAGES:
-                    old_reg[r][l].update(get_boards(url.format(r,l,p)))
-        return old_reg
+url = "https://playhearthstone.com/en-us/community/leaderboards/?region={}&leaderboardId={}&seasonId=73&page={}"
 
-    else:
-        for r in REGIONS:
-            for l in LEADERBOARDS:
-                for p in PAGES:
-                    reg[r][l].update(get_boards(url.format(r, l ,p)))
+reg = {"US": {"STD": {}, "WLD": {}, "BG": {}}, "EU": {"STD": {}, "WLD": {}, "BG": {}}, "AP": {"STD": {}, "WLD": {}, "BG": {}}}
 
-    return reg
+BUILD_NEW = True
+if BUILD_NEW:
+    for r in REGIONS:
+        for l in LEADERBOARDS:
+            for p in PAGES:
+                reg[r][l].update(get_boards(url.format(r, l ,p)))
+                    #else:
+                        #reg[r][l].update(get_boards(url.format(r,l,p)))
+
+with open('73.txt' , 'w') as f:
+    f.write(str(reg))
+
+#redo things for older seasons
+url = "https://playhearthstone.com/en-us/community/leaderboards/?region={}&leaderboardId={}&seasonId={}&page={}"
+
+SEASONS = ["72", "71", "70", "69"]
 
 
-def write_to_json(season, reg):
-    with open("./json/" + season + '.txt') as f:
-        json.dump(reg, f)
+reg2 = {"72": {"US": {"STD": {}, "WLD": {}}, "EU": {"STD": {}, "WLD": {}}, "AP": {"STD": {}, "WLD": {}}}, "71": {"US": {"STD": {}, "WLD": {}}, "EU": {"STD": {}, "WLD": {}}, "AP": {"STD": {}, "WLD": {}}}, "70": {"US": {"STD": {}, "WLD": {}}, "EU": {"STD": {}, "WLD": {}}, "AP": {"STD": {}, "WLD": {}}}, "69": {"US": {"STD": {}, "WLD": {}}, "EU": {"STD": {}, "WLD": {}}, "AP": {"STD": {}, "WLD": {}}}}
 
+if debug:
+    SEASONS = ['72', '71']
+    REGIONS = ['US', 'EU']
+    LEADERBOARDS = ['STD', 'WLD']
+    PAGES = [1, 2]
 
-def build_all():
+BUILD_OLD = True
+if BUILD_OLD:
     for s in SEASONS:
-        write_to_json(s, build(s))
+        for r in REGIONS:
+            for l in ["STD", "WLD"]:
+                for p in PAGES:
+                    reg2[s][r][l].update(get_boards(url.format(r,l,s,p)))
 
+with open ('72717069.txt', 'w') as f:
+    f.write(str(reg2))
 
-build_all()
 print('done')
