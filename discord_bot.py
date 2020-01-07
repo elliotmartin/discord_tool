@@ -23,7 +23,7 @@ async def on_ready():
         tag = re.findall(pattern, message.content)
         tags.append(tag)
     tags = flatten(tags)
-    with open("tags.txt", "w") as f:
+    with open("./json/tags.txt", "w") as f:
         for t in tags:
             f.write(t + "\n")
     print("done")
