@@ -15,11 +15,70 @@ def match_users(filename, tags):
             for k in data[country][mode].keys():
                 if k.lower().strip() in tags:
                 #name mode country rank
-                    matches.append(k + ' ' +  mode + ' ' + country + ' ' + data[country][mode][k])
+                    matches.append((mode,  country,  k, str(data[country][mode][k])))
                 
     
     return matches
 
-print(match_users('./json/73.json', './json/tags.txt'))
-for i in ["69", "70", "71", "72"]:
-    print(i, match_users('./json/' + i + '.json', './json/tags.txt'))
+prev_season = "74"
+matched = match_users('./json/' + prev_season  + '.json', './json/tags.txt')
+
+print("Congratulations to the following users from our server who placed on the Official Hearthstone leaderboards last month!")
+
+print("**Standard**")
+print("__US__:")
+for m in matched:
+    if (m[0] == "STD") and (m[1] == "US"):
+        print(m[2] + " placed " + m[3])
+
+print('\n')
+print("__EU__:")
+for m in matched:
+    if (m[0] == "STD") and (m[1] == "EU"):
+        print(m[2] + " placed " + m[3])
+
+print('\n')
+print("__APAC__:")
+for m in matched:
+    if (m[0] == "STD") and (m[1] == "AP"):
+        print(m[2] + " placed " + m[3])
+
+print('\n')
+
+print("**Wild**")
+print("__US__:")
+for m in matched:
+    if (m[0] == "WLD") and (m[1] == "US"):
+        print(m[2] + " placed " + m[3])
+
+print('\n')
+print("__EU__:")
+for m in matched:
+    if (m[0] == "WLD") and (m[1] == "EU"):
+        print(m[2] + " placed " + m[3])
+
+print('\n')
+print("__APAC__:")
+for m in matched:
+    if (m[0] == "WLD") and (m[1] == "AP"):
+        print(m[2] + " placed " + m[3])
+
+print('\n')
+
+print("**Battlegrounds**")
+print("__US__:")
+for m in matched:
+    if (m[0] == "BG") and (m[1] == "US"):
+        print(m[2] + " placed " + m[3])
+
+print('\n')
+print("__EU__:")
+for m in matched:
+    if (m[0] == "BG") and (m[1] == "EU"):
+        print(m[2] + " placed " + m[3])
+
+print('\n')
+print("__APAC__:")
+for m in matched:
+    if (m[0] == "BG") and (m[1] == "AP"):
+        print(m[2] + " placed " + m[3])
