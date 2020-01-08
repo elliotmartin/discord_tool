@@ -1,8 +1,0 @@
-.env
-chromedriver
-ghostdriver.log
-myenv
-.idea/
-__pycache__/
-tags.json
-.gitignore
