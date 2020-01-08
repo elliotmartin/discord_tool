@@ -4,4 +4,5 @@ ghostdriver.log
 myenv
 .idea/
 __pycache__/
-./json/tags.json
+tags.json
+.gitignore
