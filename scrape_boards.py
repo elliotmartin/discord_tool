@@ -39,7 +39,7 @@ REGIONS = ['US', 'EU', 'AP']
 LEADERBOARDS = ['STD', 'WLD', 'BG']
 #PAGES = [i for i in range(1,9)]
 
-SEASONS = ['74', '73', '72', '71', '70', '69']
+SEASONS = ['76', '75', '74', '73', '72', '71', '70', '69']
 
 debug = False
 if debug:

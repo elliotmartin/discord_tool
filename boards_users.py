@@ -18,12 +18,14 @@ def match_users(filename, tags):
                 if k.lower().strip() in just_tags:
                 #name mode country rank
                     player_name = str(data[country][mode][k])
-                    matches.append((mode,  country,  k, player_name, ))#tags[player_name]))
+                    #print('name: ' + player_name)
+                    #print(mode, country, k , player_name)
+                    matches.append((mode,  country,  k, player_name)) #tags[k]))
                 
     
     return matches
 
-prev_season = "74"
+prev_season = "76"
 matched = match_users('./json/' + prev_season  + '.json', './json/tags.json')
 
 print("Congratulations to the following users from our server who placed on the Official Hearthstone leaderboards last month!")
