@@ -13,7 +13,9 @@ def match_users(filename, tags):
     
     #woooo triple loop. new highscore! I don't think this is too horrific? 
     for country in data.keys():
+        print(country)
         for mode in data[country].keys():
+            print(mode)
             for k in data[country][mode].keys():
                 if k.lower().strip() in just_tags:
                 #name mode country rank
@@ -25,7 +27,7 @@ def match_users(filename, tags):
     
     return matches
 
-prev_season = "76"
+prev_season = "77"
 matched = match_users('./json/' + prev_season  + '.json', './json/tags.json')
 
 print("Congratulations to the following users from our server who placed on the Official Hearthstone leaderboards last month!")
@@ -33,9 +35,8 @@ print("Congratulations to the following users from our server who placed on the 
 
 for mode in ['STD', 'WLD', 'BG']:
     print('**' + mode + '**')
-    for region in ['US', 'EU', 'APAC']:
+    for region in ['US', 'EU', 'AP']:
         print('__' + region + '__')
         for m in matched:
             if (m[0] == mode) and (m[1] == region):
                 print(m[2] + " placed " + m[3])
-
