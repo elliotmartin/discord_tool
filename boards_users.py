@@ -27,7 +27,7 @@ def match_users(filename, tags):
     
     return matches
 
-prev_season = "80"
+prev_season = "81"
 matched = match_users('./json/' + prev_season  + '.json', './json/tags.json')
 
 print("Congratulations to the following users from our server who placed on the Official Hearthstone leaderboards last month!")

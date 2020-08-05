@@ -42,7 +42,7 @@ LEADERBOARDS = ['STD', 'WLD', 'BG']
 #UPDATE new seasons here
 #SEASONS = ['80', '79','78', '77', '76', '75', '74', '73', '72', '71', '70', '69']
 #to speed up run times in the future we don't need to rescrape old seasons
-SEASONS = ['80']
+SEASONS = ['81', '80']
 
 debug = False
 if debug:
