@@ -20,7 +20,7 @@ async def on_ready():
     channel = discord.utils.find(lambda c: c.name == "battletags", guild.channels)
     print(channel)
     tags = {}
-    async for message in channel.history(limit = 25*44):
+    async for message in channel.history(limit = 25*100):
         tag = re.findall(pattern, message.content)
         author = message.author.name
         if tag:
