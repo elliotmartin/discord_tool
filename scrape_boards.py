@@ -27,43 +27,31 @@ url = 'https://playhearthstone.com/en-us/api/community/leaderboardsData?region={
 REGIONS = ['US', 'EU', 'AP']
 LEADERBOARDS = ['STD', 'WLD', 'BG', 'CLS']
 
-def format_post_bg(SEASON):
-    reg = {"US": {"STD": {}, "WLD": {}, "BG": {}},
-           "EU": {"STD": {}, "WLD": {}, "BG": {}},
-           "AP": {"STD": {}, "WLD": {}, "BG": {}}}
 
-    LEADERBOARDS = ['STD', 'WLD', 'BG']
-
-    for r in REGIONS:
-        for l in LEADERBOARDS:
-            formatted_url = url.format(r, l, SEASON)
-            reg[r][l] = get_boards(formatted_url)
-
-    return reg
-
-
-def format_pre_bg(SEASON):
-    reg = {"US": {"STD": {}, "WLD": {}},
+PRE_BG = {"US": {"STD": {}, "WLD": {}},
            "EU": {"STD": {}, "WLD": {}},
            "AP": {"STD": {}, "WLD": {}}}
 
-    LEADERBOARDS = ['STD', 'WLD']
+PRE_BG_BOARDS = ['STD', 'WLD']
 
-    for r in REGIONS:
-        for l in LEADERBOARDS:
-            formatted_url = url.format(r, l, SEASON)
-            reg[r][l] = get_boards(formatted_url)
+POST_BG= {"US": {"STD": {}, "WLD": {}, "BG": {}},
+           "EU": {"STD": {}, "WLD": {}, "BG": {}},
+           "AP": {"STD": {}, "WLD": {}, "BG": {}}}
 
-    return reg
+POST_BG_BOARDS = ['STD', 'WLD', 'BG']
 
-def format_post_classic(SEASON):
-    reg = {"US": {"STD": {}, "WLD": {}, "BG": {}, "CLS": {}},
+POST_CLS = {"US": {"STD": {}, "WLD": {}, "BG": {}, "CLS": {}},
            "EU": {"STD": {}, "WLD": {}, "BG": {}, "CLS": {}},
            "AP": {"STD": {}, "WLD": {}, "BG": {}}, "CLS": {}}
 
+POST_CLS_BOARDS = ['STD', 'WLD', 'BG', 'CLS']
+
+def format_scrape(season, result_dict, boards):
+    reg = result_dict
+
     for r in REGIONS:
-        for l in LEADERBOARDS:
-            formatted_url = url.format(r, l, SEASON)
+        for l in boards:
+            formatted_url = url.format(r, l, season)
             reg[r][l] = get_boards(formatted_url)
 
     return reg
@@ -73,9 +61,9 @@ def format_post_classic(SEASON):
 def get_season(season):
     with open("./json/" + season + ".json", "w") as f:
         if int(season) >= 89:
-            json.dump(format_post_classic(season), f)
+            json.dump(format_scrape(season, POST_CLS, POST_CLS_BOARDS), f)
         elif (int(season) >= 73) & (int(season) < 89):
-            json.dump(format_post_bg(season), f)
+            json.dump(format_scrape(season, POST_BG, POST_BG_BOARDS), f)
         else:
-            json.dump(format_pre_bg(season), f)
+            json.dump(format_scrape(season, PRE_BG, PRE_BG_BOARDS), f)
     return
