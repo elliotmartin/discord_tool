@@ -11,17 +11,6 @@ def get_request(url):
 driver = webdriver.PhantomJS()
 def get_boards(url):
     driver.get(url)
-    # time.sleep(2)
-    # html = driver.find_element_by_tag_name('html').get_attribute('innerHTML')
-    #
-    # soup = BeautifulSoup(html, features='lxml')
-    #
-    # ranks = soup.find_all('div', {'class': 'Column col-rank'})
-    # tags = soup.find_all('div', {'class': 'Column col-battletag'})
-    # print([t.text for t in tags])
-    #
-    # lb = dict(zip([tag.text for tag in tags], [rank.text for rank in ranks]))
-
     rows = driver.execute_script("""
       return JSON.parse(document.body.innerText).leaderboard.rows.reduce(function(acc, o){
         acc[o.accountid] = o.rank
@@ -37,19 +26,6 @@ url = 'https://playhearthstone.com/en-us/api/community/leaderboardsData?region={
 
 REGIONS = ['US', 'EU', 'AP']
 LEADERBOARDS = ['STD', 'WLD', 'BG']
-#PAGES = [i for i in range(1,9)]
-
-#UPDATE new seasons here
-#SEASONS = ['80', '79','78', '77', '76', '75', '74', '73', '72', '71', '70', '69']
-#to speed up run times in the future we don't need to rescrape old seasons
-SEASONS = ['82', '81', '80']
-
-debug = False
-if debug:
-    SEASONS = ['73', '72']
-    REGIONS = ['US', 'EU']
-    LEADERBOARDS = ['STD', 'WLD', 'BG']
-    #PAGES = ['1', '2', '3']
 
 def format_post_bg(SEASON):
     reg = {"US": {"STD": {}, "WLD": {}, "BG": {}},
@@ -79,10 +55,11 @@ def format_pre_bg(SEASON):
     return reg
 
 
-print("running....")
-for s in SEASONS:
-    with open("./json/" + s + ".json", "w") as f:
-        if int(s) >= 73:
-            json.dump(format_post_bg(s), f)
+#print("running....")
+def get_season(season):
+    with open("./json/" + season + ".json", "w") as f:
+        if int(season) >= 73:
+            json.dump(format_post_bg(season), f)
         else:
-            json.dump(format_pre_bg(s), f)
+            json.dump(format_pre_bg(season), f)
+    return

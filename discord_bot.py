@@ -16,9 +16,10 @@ flatten = lambda l: [item for sublist in l for item in sublist]
 
 @client.event
 async def on_ready():
+    #print("running on ready")
     guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
     channel = discord.utils.find(lambda c: c.name == "battletags", guild.channels)
-    print(channel)
+    #print(channel)
     tags = {}
     async for message in channel.history(limit = 25*100):
         tag = re.findall(pattern, message.content)
@@ -26,12 +27,14 @@ async def on_ready():
         if tag:
             tags[tag[0]] = author
     #tags = flatten(tags)
-    tags['gallon'] = 'gallon'
-    tags['jambre'] = 'jambre'
     with open("./json/tags.json", "w") as f:
         json.dump(tags, f)
 
-    print("done")
+    #print("done")
+    await client.close()
+    return
 
-client.run(TOKEN)
+#print("running...")
+def run():
+    client.run(TOKEN)
 

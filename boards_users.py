@@ -27,16 +27,17 @@ def match_users(filename, tags):
     
     return matches
 
-prev_season = "82"
-matched = match_users('./json/' + prev_season  + '.json', './json/tags.json')
+def write_season(prev_season):
+    matched = match_users('./json/' + str(prev_season)  + '.json', './json/tags.json')
+    result=""
+    result += "Congratulations to the following users from our server who placed on the Official Hearthstone leaderboards last month!\n"
 
-print("Congratulations to the following users from our server who placed on the Official Hearthstone leaderboards last month!")
 
-
-for mode in ['STD', 'WLD', 'BG']:
-    print('**' + mode + '**')
-    for region in ['US', 'EU', 'AP']:
-        print('__' + region + '__')
-        for m in matched:
-            if (m[0] == mode) and (m[1] == region):
-                print(m[2] + " placed " + m[3])
+    for mode in ['STD', 'WLD', 'BG']:
+        result += '**' + mode + '**\n'
+        for region in ['US', 'EU', 'AP']:
+            result += '__' + region + '__\n'
+            for m in matched:
+                if (m[0] == mode) and (m[1] == region):
+                    result += m[2] + " placed " + m[3] + "\n"
+    return result
