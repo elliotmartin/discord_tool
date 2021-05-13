@@ -33,7 +33,7 @@ def write_season(prev_season):
     result += "Congratulations to the following users from our server who placed on the Official Hearthstone leaderboards last month!\n"
 
 
-    for mode in ['STD', 'WLD', 'BG']:
+    for mode in ['STD', 'WLD', 'CLS', 'BG']:
         result += '**' + mode + '**\n'
         for region in ['US', 'EU', 'AP']:
             result += '__' + region + '__\n'

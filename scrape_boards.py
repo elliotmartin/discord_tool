@@ -25,12 +25,14 @@ url = 'https://playhearthstone.com/en-us/api/community/leaderboardsData?region={
 
 
 REGIONS = ['US', 'EU', 'AP']
-LEADERBOARDS = ['STD', 'WLD', 'BG']
+LEADERBOARDS = ['STD', 'WLD', 'BG', 'CLS']
 
 def format_post_bg(SEASON):
     reg = {"US": {"STD": {}, "WLD": {}, "BG": {}},
            "EU": {"STD": {}, "WLD": {}, "BG": {}},
            "AP": {"STD": {}, "WLD": {}, "BG": {}}}
+
+    LEADERBOARDS = ['STD', 'WLD', 'BG']
 
     for r in REGIONS:
         for l in LEADERBOARDS:
@@ -54,11 +56,25 @@ def format_pre_bg(SEASON):
 
     return reg
 
+def format_post_classic(SEASON):
+    reg = {"US": {"STD": {}, "WLD": {}, "BG": {}, "CLS": {}},
+           "EU": {"STD": {}, "WLD": {}, "BG": {}, "CLS": {}},
+           "AP": {"STD": {}, "WLD": {}, "BG": {}}, "CLS": {}}
+
+    for r in REGIONS:
+        for l in LEADERBOARDS:
+            formatted_url = url.format(r, l, SEASON)
+            reg[r][l] = get_boards(formatted_url)
+
+    return reg
+
 
 #print("running....")
 def get_season(season):
     with open("./json/" + season + ".json", "w") as f:
-        if int(season) >= 73:
+        if int(season) >= 89:
+            json.dump(format_post_classic(season), f)
+        elif (int(season) >= 73) & (int(season) < 89):
             json.dump(format_post_bg(season), f)
         else:
             json.dump(format_pre_bg(season), f)
