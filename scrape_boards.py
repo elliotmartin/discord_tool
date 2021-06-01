@@ -67,3 +67,4 @@ def get_season(season):
         else:
             json.dump(format_scrape(season, PRE_BG, PRE_BG_BOARDS), f)
     return
+

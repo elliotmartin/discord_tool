@@ -3,19 +3,19 @@ import json
 def match_users(filename, tags):
     with open(filename, 'r') as f:
         data = json.load(f)
-        print(data)
+        #print(data)
     with open(tags, 'r') as f:
         tags = json.load(f)
-        print(tags)
+        #print(tags)
         just_tags = [t[0:t.find('#')].lower().strip() for t in tags.keys()]
 #the tags list needs to be declared as a seperate variable so that we can still index the JSON tags to find discord users from battletags, other variables need to be updated appropriately
     matches = []
     
     #woooo triple loop. new highscore! I don't think this is too horrific? 
     for country in data.keys():
-        print(country)
+        #print(country)
         for mode in data[country].keys():
-            print(mode)
+            #print(mode)
             for k in data[country][mode].keys():
                 if k.lower().strip() in just_tags:
                 #name mode country rank
