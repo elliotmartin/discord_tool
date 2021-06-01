@@ -21,8 +21,9 @@ def get_boards(url):
     return rows
 
 
-url = 'https://playhearthstone.com/en-us/api/community/leaderboardsData?region={}&leaderboardId={}&seasonId={}'
-
+URL = 'https://playhearthstone.com/en-us/api/community/leaderboardsData?region={}&leaderboardId={}&seasonId={}'
+#leaderboards site has a bug where BG leaderboards use SeasonId instead of seasonId
+BG_URL = 'https://playhearthstone.com/en-us/api/community/leaderboardsData?region={}&leaderboardId={}&SeasonId={}'
 
 REGIONS = ['US', 'EU', 'AP']
 LEADERBOARDS = ['STD', 'WLD', 'BG', 'CLS']
@@ -47,15 +48,19 @@ POST_CLS = {"US": {"STD": {}, "WLD": {}, "BG": {}, "CLS": {}},
 POST_CLS_BOARDS = ['STD', 'WLD', 'BG', 'CLS']
 
 def format_scrape(season, result_dict, boards):
+    url = URL
     reg = result_dict
 
     for r in REGIONS:
         for l in boards:
+            if l == "BG":
+                url = BG_URL
+            else:
+                url = URL
             formatted_url = url.format(r, l, season)
             reg[r][l] = get_boards(formatted_url)
 
     return reg
-
 
 #print("running....")
 def get_season(season):
