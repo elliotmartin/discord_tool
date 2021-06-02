@@ -22,8 +22,6 @@ def get_boards(url):
 
 
 URL = 'https://playhearthstone.com/en-us/api/community/leaderboardsData?region={}&leaderboardId={}&seasonId={}'
-#leaderboards site has a bug where BG leaderboards use SeasonId instead of seasonId
-BG_URL = 'https://playhearthstone.com/en-us/api/community/leaderboardsData?region={}&leaderboardId={}&SeasonId={}'
 
 REGIONS = ['US', 'EU', 'AP']
 LEADERBOARDS = ['STD', 'WLD', 'BG', 'CLS']
@@ -48,16 +46,17 @@ POST_CLS = {"US": {"STD": {}, "WLD": {}, "BG": {}, "CLS": {}},
 POST_CLS_BOARDS = ['STD', 'WLD', 'BG', 'CLS']
 
 def format_scrape(season, result_dict, boards):
-    url = URL
+    season_mod = season
     reg = result_dict
 
     for r in REGIONS:
         for l in boards:
             if l == "BG":
-                url = BG_URL
+                season_mod = int(season) - 89
             else:
-                url = URL
-            formatted_url = url.format(r, l, season)
+                season_mod = season
+            formatted_url = URL.format(r, l, season_mod)
+            print(formatted_url)
             reg[r][l] = get_boards(formatted_url)
 
     return reg
@@ -67,8 +66,6 @@ def get_season(season):
     with open("./json/" + season + ".json", "w") as f:
         if int(season) >= 89:
             json.dump(format_scrape(season, POST_CLS, POST_CLS_BOARDS), f)
-        elif (int(season) >= 73) & (int(season) < 89):
-            json.dump(format_scrape(season, POST_BG, POST_BG_BOARDS), f)
         else:
             json.dump(format_scrape(season, PRE_BG, PRE_BG_BOARDS), f)
     return
