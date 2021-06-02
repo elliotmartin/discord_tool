@@ -56,7 +56,6 @@ def format_scrape(season, result_dict, boards):
             else:
                 season_mod = season
             formatted_url = URL.format(r, l, season_mod)
-            print(formatted_url)
             reg[r][l] = get_boards(formatted_url)
 
     return reg
