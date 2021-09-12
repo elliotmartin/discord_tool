@@ -10,7 +10,7 @@ main.py does all of this sequentially and accepts any number of season parameter
 
 Usage:
 
-git clone
+git clone https://github.com/elliotmartin/discord_tool.git
 
 python3 -m venv discord_env
 
